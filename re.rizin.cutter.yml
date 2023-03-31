@@ -68,6 +68,34 @@ modules:
         url: https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/6.0.2/graphviz-6.0.2.tar.gz
         sha256: 4dccb9399080b7572570fa11b236c0305370bac569be7d121d66196409d76705
 
+  - name: rz-ghidra
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_INSTALL_PREFIX=~/.local
+      - -DBUILD_CUTTER_PLUGIN=ON
+    sources:
+      - type: git
+        url: https://github.com/rizinorg/rz-ghidra.git
+        tag: rz-0.5.0
+        commit: 1ed04d6c29b1a8226f0c0cdf8163def4b2fb0b1e
+        x-checker-data:
+          type: git
+          tag-pattern: ^rz-([\d.]+)$
+
+  - name: jsdec
+    buildsystem: meson
+    config-opts:
+      - -Djsc_folder=".."
+      - --prefix=~/.local
+    sources:
+      - type: git
+        url: https://github.com/rizinorg/jsdec.git
+        tag: v0.5.0
+        commit: 8a4f4c852c918e8831a35ca18f09e028b86f91cf
+        x-checker-data:
+          type: git
+          tag-pattern: ^v([\d.]+)$
+
   - name: cutter
     buildsystem: cmake-ninja
     builddir: true
