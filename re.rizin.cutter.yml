@@ -85,6 +85,8 @@ modules:
         sha256: edc266a5f7a1f1c7f71cf5c6c9727e05008b728eae3bb42beb7d0b24ce07c5c3
       - type: patch
         path: appstream.patch
+      - type: patch
+        path: 0001-fix-Handle-python-3.11-and-higher.patch
     post-install:
       - mkdir -p /app/extensions
       - desktop-file-edit --set-icon=${FLATPAK_ID} ${FLATPAK_DEST}/share/applications/re.rizin.cutter.desktop

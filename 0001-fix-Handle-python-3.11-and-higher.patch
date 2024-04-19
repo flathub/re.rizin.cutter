@@ -1,0 +1,67 @@
+From 19a95339d2e0f81b5924a6c7af74385968cd53ef Mon Sep 17 00:00:00 2001
+From: Francisco Freitas <contact@ffreitas.io>
+Date: Fri, 19 Apr 2024 22:13:44 +0200
+Subject: [PATCH] fix: Handle python 3.11 and higher
+
+---
+ src/common/PythonAPI.h       |  1 -
+ src/common/PythonManager.cpp | 15 ++++++++-------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/src/common/PythonAPI.h b/src/common/PythonAPI.h
+index 3dcb3abd..937a59f5 100644
+--- a/src/common/PythonAPI.h
++++ b/src/common/PythonAPI.h
+@@ -1,7 +1,6 @@
+ #ifndef PYTHONAPI_H
+ #define PYTHONAPI_H
+ 
+-#define Py_LIMITED_API 0x03050000
+ #include <Python.h>
+ 
+ PyObject *PyInit_api();
+diff --git a/src/common/PythonManager.cpp b/src/common/PythonManager.cpp
+index eb43b018..84ec5b70 100644
+--- a/src/common/PythonManager.cpp
++++ b/src/common/PythonManager.cpp
+@@ -36,6 +36,8 @@ PythonManager::PythonManager() {}
+ 
+ PythonManager::~PythonManager() {}
+ 
++PyConfig config;
++
+ void PythonManager::initPythonHome()
+ {
+ #if defined(APPIMAGE) || defined(MACOS_PYTHON_FRAMEWORK_BUNDLED)
+@@ -55,10 +57,11 @@ void PythonManager::initPythonHome()
+     }
+ #endif
+ 
++    PyConfig_InitPythonConfig(&config);
++
+     if (!customPythonHome.isNull()) {
+         qInfo() << "PYTHONHOME =" << customPythonHome;
+-        pythonHome = Py_DecodeLocale(customPythonHome.toLocal8Bit().constData(), nullptr);
+-        Py_SetPythonHome(pythonHome);
++        PyConfig_SetBytesString(&config, &config.home, qPrintable(customPythonHome));
+     }
+ }
+ 
+@@ -75,11 +78,9 @@ void PythonManager::initialize()
+ #ifdef CUTTER_ENABLE_PYTHON_BINDINGS
+     PyImport_AppendInittab("CutterBindings", &PyInit_CutterBindings);
+ #endif
+-    Py_Initialize();
+-    // This function is deprecated does nothing starting from Python 3.9
+-#if (PY_MAJOR_VERSION <= 3) && (PY_MICRO_VERSION < 9)
+-    PyEval_InitThreads();
+-#endif
++    Py_InitializeFromConfig(&config);
++    PyConfig_Clear(&config);
++
+     pyThreadStateCounter = 1; // we have the thread now => 1
+ 
+     RegQtResImporter();
+-- 
+2.44.0
+
