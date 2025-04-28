@@ -26,6 +26,7 @@ add-extensions:
     no-autodownload: true
 
 modules:
+
   - name: pyside
     buildsystem: cmake-ninja
     builddir: true
@@ -46,6 +47,19 @@ modules:
       - type: shell
         commands:
           - cp -R /usr/include/Qt* sources/pyside6/PySide6/
+    modules:
+      # needed as the cmake super project doesn't find the shiboken python module
+      - name: shiboken
+        buildsystem: cmake-ninja
+        builddir: true
+        subdir: sources/shiboken6
+        config-opts:
+          - -DBUILD_TESTS=OFF
+          - -DFORCE_LIMITED_API=OFF
+        sources:
+          - type: archive
+            url: https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-6.9.0-src/pyside-setup-everywhere-src-6.9.0.tar.xz
+            sha256: 315b73bb7570d5b9e6793a8d3fafd1d2dd7f43d35eebb01d2b554ea206aad88e
 
   - name: rizin
     buildsystem: meson
