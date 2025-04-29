@@ -105,6 +105,8 @@ modules:
         sha256: 03b698f17ac93cdab251837872b97aecc0744ef9bcbfbbfa04b76047b5e927b9
       - type: patch
         path: 0001-fix-Handle-python-3.11-and-higher.patch
+      - type: patch
+        path: 0002-patch-add-missing-informations-for-flathub-build-pip.patch
     post-install:
       - rm -rf /app/qtincludes
       - mkdir -p /app/extensions
