@@ -70,8 +70,8 @@ modules:
       - -Dsubprojects_check=false # we manually add sigdb subproject
     sources:
       - type: archive
-        url: https://github.com/rizinorg/rizin/releases/download/v0.8.0/rizin-src-v0.8.0.tar.xz
-        sha256: da9ac726109719289f908007d1802c6494a23c43cb9950ca42821d42aa5c7e37
+        url: https://github.com/rizinorg/rizin/releases/download/v0.8.1/rizin-src-v0.8.1.tar.xz
+        sha256: ef2b1e6525d7dc36ac43525b956749c1cca07bf17c1fed8b66402d82010a4ec2
       - type: git
         url: https://github.com/rizinorg/sigdb
         commit: 4addbed50cd3b50eeef5a41d72533d079ebbfbf8
@@ -101,8 +101,8 @@ modules:
           # quick hack because shiboken ignores system includes
           - mkdir -p /app/qtincludes && ln -s /usr/include/Qt* /app/qtincludes
       - type: archive
-        url: https://github.com/rizinorg/cutter/releases/download/v2.4.0/Cutter-v2.4.0-src.tar.gz
-        sha256: 03b698f17ac93cdab251837872b97aecc0744ef9bcbfbbfa04b76047b5e927b9
+        url: https://github.com/rizinorg/cutter/releases/download/v2.4.1/Cutter-v2.4.1-src.tar.gz
+        sha256: 7cafc3cac74aa3e69b14d9d790e7ea88ab856e37573000f7403289ec410867ef
       - type: patch
         path: 0001-fix-Handle-python-3.11-and-higher.patch
       - type: patch
