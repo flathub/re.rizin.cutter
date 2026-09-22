@@ -48,6 +48,20 @@ modules:
         commands:
           - cp -R /usr/include/Qt* sources/pyside6/PySide6/
     modules:
+      # since 6.11 the generator lives in its own source dir and provides the
+      # Shiboken6Tools package (Shiboken6::shiboken6), which both shiboken6
+      # and cutter find_package(), so it has to be built and installed first
+      - name: shiboken-generator
+        buildsystem: cmake-ninja
+        builddir: true
+        subdir: sources/shiboken6_generator
+        config-opts:
+          - -DBUILD_TESTS=OFF
+        sources:
+          - type: archive
+            url: https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-6.11.2-src/pyside-setup-everywhere-src-6.11.2.tar.xz
+            sha256: cba47efbaad1bedd529725cbc14e21f156c7a19366f07b3edfbb076ffd7afdf8
+
       # needed as the cmake super project doesn't find the shiboken python module
       - name: shiboken
         buildsystem: cmake-ninja
